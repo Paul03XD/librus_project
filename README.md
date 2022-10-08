@@ -1,2 +1,0 @@
-# librus_project
-sex
