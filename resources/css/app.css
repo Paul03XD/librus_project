@@ -1,0 +1,44 @@
+
+.dziennik, .userList{
+    border: 2px solid black;
+    padding: 10px;
+}
+.subject_list{
+    border: 1px solid black;
+    padding: 5px;
+    margin: 10px 0;
+    height: 40px;
+}
+.grades_list{
+    border: 1px solid black;
+    width: 100%;
+    height: 40px;
+    font-size: 15px;
+    margin: 10px 0 10px 0;
+}
+.grades_list div{
+    border: 1px solid black;
+    margin: 5px;
+    margin-right: 0;
+    padding-top: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+}
+.gradeColor1{
+    background-color: lightblue;
+}
+.gradeColor2{
+    background-color: lightgreen;
+}
+.gradeColor3{
+    background-color: yellow;
+}
+.gradeColor4{
+    background-color: orange;
+}
+.gradeColor5{
+    background-color: red;
+}
