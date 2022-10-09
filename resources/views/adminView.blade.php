@@ -10,6 +10,7 @@
             <input class="me-2" type="submit" value="Przypisz ucznia do klasy" formaction="{{route('assignClass')}}">
             <input class="me-2" type="submit" value="Przypisz przedmiot" formaction="{{route('assignSubject')}}">
             
+            <input class="me-2" type="submit" value="Klasy" formaction="{{route('classes')}}">
             <input class="me-2" type="submit" value="Użytkownicy" formaction="{{route('users')}}">
             <input class="me-2" type="submit" value="Oceny" formaction="{{route('grades')}}">
         </form>

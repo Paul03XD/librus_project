@@ -6,10 +6,10 @@
     <?php
         use Illuminate\Support\Facades\DB;
     ?>
-    @if (Auth::user()->type=='admin' || Auth::user()->type=='teacher')
+    @if (Auth::user()->type=='admin')
         <div class="przyciski d-flex">
             <form method="get">
-                <input class="me-2" type="submit" value="Oceny" formaction="{{route('grades')}}">
+                <input class="me-2" type="submit" value="Wróć" formaction="{{route('adminView')}}">
             </form>
         </div>
         <div class="userList row mt-3">

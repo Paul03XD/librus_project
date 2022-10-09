@@ -14,21 +14,31 @@
         if(count($wynik2)==0){
             echo "Brak przedmiotów do przypisania<br/>";
 ?>
-            <input type="submit" value="Dodaj przedmiot" formmethod="GET" formaction="{{route('addSubjects')}}">
+            <input class="mb-2" type="submit" value="Dodaj przedmiot" formmethod="GET" formaction="{{route('addSubjects')}}">
 <?php
         }
         else{
-            echo "<p>Wybierz przedmiot</p>";
             echo "<select name=\"subject_id\" class=\"mb-3\">";
-            foreach($wynik2 as $record2){
-                echo "<option value=\"".$record2->id."\">".$record2->name."</option>";
+            echo "<option value=\"\" disabled selected>Wybierz przedmiot</option>";
+            if(count($wynik2)>0){
+                foreach($wynik2 as $record2){
+                    echo "<option value=\"".$record2->id."\">".$record2->name."</option>";
+                }
+            }
+            else{
+                echo "<option value=\"\" disabled selected>Brak przedmiotów</option>";
             }
             echo "</select><br/>";
             
-            echo "<p>Wybierz klasę</p>";
             echo "<select name=\"class_id\" class=\"mb-3\">";
-            foreach($wynik as $record){
-                echo "<option value=\"".$record->id."\">".$record->name."</option>";
+            echo "<option value=\"\" disabled selected>Wybierz klasę</option>";
+            if(count($wynik)){
+                foreach($wynik as $record){
+                    echo "<option value=\"".$record->id."\">".$record->name."</option>";
+                }
+            }
+            else{
+                echo "<option value=\"\" disabled selected>Brak klas</option>";
             }
             echo "</select><br/>";
 ?>

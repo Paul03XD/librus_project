@@ -23,7 +23,7 @@ class ClassController extends Controller
                 'name' => $request->input('classname'),
                 'created_at' => date('Y-m-d H:i:s')
             ]);
-            return view('adminView');
+            return view('addClass');
         }
         else{
             echo "Klasa $name już istnieje";
@@ -37,7 +37,7 @@ class ClassController extends Controller
         DB::table('users')
             ->whereIn('id', [$user_id])
             ->update(['class_id'=>$class_id]);
-        return view('adminView');
+        return view('assignClass');
     }
 
     public function showassignform(){

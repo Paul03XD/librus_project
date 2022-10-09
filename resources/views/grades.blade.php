@@ -10,7 +10,6 @@
         <div class="przyciski d-flex">
             <form method="GET">
                 <input class="me-2" type="submit" value="Dodaj ocenę" formaction="{{route('addGrades')}}">
-                <input class="me-2" type="submit" value="Klasy" formaction="{{route('classes')}}">
                 @if (Auth::user()->type=='admin')
                     <input class="me-2" type="submit" value="Wróć do menu admina" formaction="{{route('adminView')}}">
                 @endif
@@ -80,10 +79,17 @@
             <div class="uczniowie col-3">
                 <h3 class="fw-bold">Uczniowie</h3>
 <?php
-    if(isset($_GET['class_id']) && isset($_GET['subject_id'])){
+    if(isset($_GET['class_id'])){
         $uczniowie = DB::select("SELECT * FROM `users` WHERE `class_id`=".$_GET['class_id']." AND `users`.`type`=\"student\"");
-        foreach($uczniowie as $record){
-            echo "<div class=\"subject_list\">".$record->name."</div>";
+        if(count($uczniowie)>0){
+            if(isset($_GET['subject_id'])){
+                foreach($uczniowie as $record){
+                    echo "<div class=\"subject_list\">".$record->name."</div>";
+                }
+            }
+        }
+        else{
+            echo "Brak uczniów w tej klasie";
         }
     }
 ?>

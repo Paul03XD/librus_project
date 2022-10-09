@@ -23,7 +23,7 @@ class SubjectController extends Controller
                 'name' => $name,
                 'created_at' => date('Y-m-d H:i:s')
             ]);
-            return view('adminView');
+            return view('addSubject');
         }
         else{
             echo "Przedmiot $name już istnieje";
@@ -43,7 +43,7 @@ class SubjectController extends Controller
                 'subject_id' => $subject_id,
                 'created_at' => date('Y-m-d H:i:s')
             ]);
-            return view('adminView');
+            return view('assignSubject');
         }
         else{
             echo "Przedmiot już jest przypisany do tej klasy";

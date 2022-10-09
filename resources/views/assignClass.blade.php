@@ -8,21 +8,31 @@
         <form method="post" action="{{ route('createAssignClass') }}">
             @csrf
             <h1>Przypisz ucznia do klasy</h1>
-            <p>Wybierz ucznia</p>
             <select class="me-3 mb-3" name="usersSelectList" required>
 <?php
-    $wynik = DB::select("SELECT * FROM `users`");
-    foreach($wynik as $record){
-        echo "<option value=\"".$record->id."\">".$record->name."</option>";
+    $wynik = DB::select("SELECT * FROM `users` WHERE `type` = 'student'");
+    if(count($wynik)>0){  
+        echo "<option value=\"\" disabled selected>Wybierz ucznia</option>";
+        foreach($wynik as $record){
+            echo "<option value=\"".$record->id."\">".$record->name."</option>";
+        }
+    }
+    else{
+        echo "<option value=\"\" disabled selected>Brak uczniów</option>";
     }
 ?>
             </select><br/>
-            <p>Wybierz klasę</p>
             <select class="me-3 mb-3" name="classesSelectList" required>
 <?php
     $wynik = DB::select("SELECT * FROM `classes`");
-    foreach($wynik as $record){
-        echo "<option value=\"".$record->id."\">".$record->name."</option>";
+    if(count($wynik)>0){
+        echo "<option value=\"\" disabled selected>Wybierz klasę</option>";
+        foreach($wynik as $record){
+            echo "<option value=\"".$record->id."\">".$record->name."</option>";
+        }
+    }
+    else{
+        echo "<option value=\"\" disabled selected>Brak klas</option>";
     }
 ?>
             </select><br/>

@@ -58,7 +58,7 @@
 <?php
     foreach ($wynik as $record) {
         if($record->class_id==NULL) {
-            echo "<div>NULL</div>";
+            echo "<div>Brak</div>";
         }
         else {
             foreach(DB::select("SELECT `classes`.`name` FROM `users` join `classes` on `users`.`class_id` = `classes`.`id` WHERE `users`.`id`=$record->id LIMIT 1") as $record2){
