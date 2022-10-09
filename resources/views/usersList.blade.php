@@ -8,8 +8,9 @@
 ?>
     @if (Auth::user()->type=='admin')
         <div class="przyciski d-flex">
-            <form method="get">
-                <input class="me-2" type="submit" value="Wróć" formaction="{{route('adminView')}}">
+            <form method="get">  
+                <input class="me-2" type="submit" value="Przypisz typ użytkownika" formaction="{{route('assignType')}}">
+                <input class="me-2" type="submit" value="Wróć" formaction="{{route('adminView')}}"> 
             </form>
         </div>
         <div class="userList row mt-3">

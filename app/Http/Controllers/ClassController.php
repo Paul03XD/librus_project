@@ -48,8 +48,23 @@ class ClassController extends Controller
         return view('addClass');
     }
 
-    public function show()
+    
+    public function showschool() {
+        return view('school');
+    }
+
+    public function show($name)
     {
-        return view('classList');
+        return view('class', [
+            'name' => $name,
+        ]);
+    }
+
+    public function showclasssubject($name)
+    {
+        return view('classSubject', [
+            'name' => $name,
+            // 'subject' => $request->subject,
+        ]);
     }
 }

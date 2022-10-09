@@ -12,7 +12,7 @@ class GradeController extends Controller
         $this->middleware('auth');
     }
 
-    public function add(Request $request){
+    public function add(Request $request,$name){
         $username = $request->input('username');
         $subject = $request->input('gradeSubject');
         $user_id = $request->input('usersSelectList');
@@ -25,7 +25,9 @@ class GradeController extends Controller
             'subject_id' => $subject_id,
             'created_at' => date('Y-m-d H:i:s')
         ]);
-        return view('grades');
+        return view('grades',[
+            'name'=>$name
+        ]);
     }
 
     public function showuser()
@@ -33,13 +35,17 @@ class GradeController extends Controller
         return view('userGrades');
     }
 
-    public function show()
+    public function show($name)
     {
-        return view('grades');
+        return view('grades',[
+            'name'=>$name
+        ]);
     }
 
-    public function showform()
+    public function showform($name)
     {
-        return view('addGrades');
+        return view('addGrades',[
+            'name'=>$name
+        ]);
     }
 }

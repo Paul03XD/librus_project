@@ -10,13 +10,16 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\UsersController::class, 'loggedin'])->name('loggedIn');
 
-Route::get('/grades', [App\Http\Controllers\GradeController::class, 'show'])->name('grades');
+Route::get('/addGrades/{name}', [App\Http\Controllers\GradeController::class, 'showform'])->name('addGrade');
+Route::post('/addGrades/{name}', [App\Http\Controllers\GradeController::class, 'add'])->name('createGrade');
+Route::get('/grades/{name}', [App\Http\Controllers\GradeController::class, 'show'])->name('grades');
+
+Route::get('/assignType', [App\Http\Controllers\UsersController::class, 'showform'])->name('assignType');
+Route::post('/assignType', [App\Http\Controllers\UsersController::class, 'assign'])->name('createAssignType');
 Route::get('/usergrades', [App\Http\Controllers\GradeController::class, 'showuser'])->name('usergrades');
 
-Route::get('/addGrade', [App\Http\Controllers\GradeController::class, 'showform'])->name('addGrades');
-Route::post('/addGrade', [App\Http\Controllers\GradeController::class, 'add'])->name('createGrade');
+Route::get('/school', [App\Http\Controllers\ClassController::class, 'showschool'])->name('showSchool');
 
-Route::get('/classes', [App\Http\Controllers\ClassController::class, 'show'])->name('classes');
 Route::get('/addClass', [App\Http\Controllers\ClassController::class, 'showform'])->name('addClasses');
 Route::post('/addClass', [App\Http\Controllers\ClassController::class, 'add'])->name('createClass');
 Route::get('/assignClass', [App\Http\Controllers\ClassController::class, 'showassignform'])->name('assignClass');
