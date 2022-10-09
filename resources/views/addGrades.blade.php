@@ -4,15 +4,13 @@
 <div class="container">
     <?php
     use Illuminate\Support\Facades\DB;
-    if(!isset($_GET['class_id'])){
-        $_GET['class_id'] = 1;
-    }
     ?>
     @if (Auth::user()->type=='admin' || Auth::user()->type=='teacher')
         <form class="d-flex mb-3">
 <?php
     $wynik = DB::select("SELECT * FROM `classes`");
     echo "<select class=\"me-2\" name=\"class_id\" required>";
+    echo "<option value=\"\" disabled selected>Wybierz klasę</option>";
     foreach($wynik as $record){
         echo "<option value=\"".$record->id."\">".$record->name."</option>";
     }
@@ -44,11 +42,18 @@
             <p>Wybierz ucznia</p>
             <select class="me-3 mb-3" name="usersSelectList" required>
 <?php
-    $wynik = DB::select("SELECT * FROM `users` WHERE `class_id`=".$_GET['class_id']." AND `users`.`type`=\"student\"");
-    foreach($wynik as $record){
-        echo "<option value=\"".$record->id."\">".$record->name."</option>";
+    if(isset($_GET['class_id'])){
+        echo "<option value=\"\" disabled selected>Wybierz ucznia</option>";
+        $wynik = DB::select("SELECT * FROM `users` WHERE `class_id`=".$_GET['class_id']." AND `users`.`type`=\"student\"");
+        foreach($wynik as $record){
+            echo "<option value=\"".$record->id."\">".$record->name."</option>";
+        }
+    }
+    else{
+        echo "<option value=\"\" disabled selected>Nie wybrano klasy</option>";
     }
 ?>
+    
             </select><br/>
             <p>Podaj przedmiot</p>
             <script>
@@ -56,9 +61,15 @@
             </script>
             <select class="me-3 mb-3" name="subjectsSelectList" required>
 <?php
-    $wynik2 = DB::select("SELECT `subjects`.`id` as `subjectId`, `subjects`.`name` as `subjectName` FROM `subjects` JOIN `class_subject` ON `subjects`.`id` = `class_subject`.`subject_id` WHERE `class_subject`.`class_id` = ".$_GET['class_id']);
-    foreach($wynik2 as $record){
-        echo "<option value=\"".$record->subjectId."\">".$record->subjectName."</option>";
+    if(isset($_GET['class_id'])){
+        echo "<option value=\"\" disabled selected>Wybierz przedmiot</option>";
+        $wynik2 = DB::select("SELECT `subjects`.`id` as `subjectId`, `subjects`.`name` as `subjectName` FROM `subjects` JOIN `class_subject` ON `subjects`.`id` = `class_subject`.`subject_id` WHERE `class_subject`.`class_id` = ".$_GET['class_id']);
+        foreach($wynik2 as $record){
+            echo "<option value=\"".$record->subjectId."\">".$record->subjectName."</option>";
+        }
+    }
+    else{
+        echo "<option value=\"\" disabled selected>Nie wybrano klasy</option>";
     }
 ?>
             </select><br/>

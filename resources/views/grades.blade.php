@@ -15,61 +15,75 @@
                     <input class="me-2" type="submit" value="Wróć do menu admina" formaction="{{route('adminView')}}">
                 @endif
             </form>
-<?php
-    if(!isset($_GET['usersSelectList'])){
-        $_GET['usersSelectList'] = 0;
-    }
-?>
             <form method="GET">
 <?php
-    $wynik = DB::select("SELECT * FROM `users` WHERE `users`.`type`=\"student\"");
-    echo "<select class=\"ms-5 me-2\" name=\"usersSelectList\" required>";
-    foreach($wynik as $record){
+    $class_name = "";
+    $klasy = DB::select("SELECT * FROM `classes`");
+    echo "<select class=\"me-2\" name=\"class_id\">";
+    echo "<option value=\"\" disabled selected>Wybierz klasę</option>";
+    foreach($klasy as $record){
         echo "<option value=\"".$record->id."\">".$record->name."</option>";
     }
     echo "</select>";
-?>
-    <input class="me-2" type="submit" value="Wybierz" formaction="{{route('grades')}}">
-<?php
-    $uczen = "";
-    $klasa = "";
-    $class_id = "";
-    $checkifnull = false;
-    foreach (DB::select("SELECT * FROM `users` WHERE `users`.`id`=".$_GET['usersSelectList']." AND `users`.`type`=\"student\" LIMIT 1") as $record){
-        if($record->class_id == null){
-            $checkifnull = true;
+    echo "<input class=\"me-2\" type=\"submit\" value=\"Wybierz\">";
+    if(isset($_GET['class_id'])){
+        $klasy2 = DB::select("SELECT * FROM `classes` WHERE `id` =".$_GET['class_id']);
+        foreach($klasy2 as $record){
+            $class_name = $record->name;
         }
+        echo "Wybrana klasa: ".$class_name;
     }
-    if($checkifnull==false){
-        if($_GET['usersSelectList']!=0){
-            foreach(DB::select("SELECT `users`.`name` as `student_name`,`classes`.`name` as `class_name`,`class_id` FROM `users` JOIN `classes` ON `users`.`class_id` = `classes`.`id` WHERE `users`.`id`=".$_GET['usersSelectList']."  AND `users`.`type`=\"student\" LIMIT 1") as $record){
-                $uczen = $record->student_name;
-                $klasa = $record->class_name;
-                $class_id = $record->class_id;
+?>
+            </form>
+        </div>
+        <div class="d-flex">
+<?php
+    if(isset($_GET['class_id'])){
+        if(count(DB::select("SELECT * FROM `class_subject` WHERE `class_id` = ".$_GET['class_id']))>0){
+            $subjects = DB::select("SELECT `subjects`.`id` as `subid`, `subjects`.`name` as `subname` FROM `classes` JOIN `class_subject` ON `classes`.`id` = `class_subject`.`class_id` JOIN `subjects` ON `subjects`.`id` = `class_subject`.`subject_id` WHERE `classes`.`id`= ".$_GET['class_id']);
+?>
+            <form method="GET">
+<?php
+            echo "<select class=\"mt-2 me-2\" name=\"subject_id\">";
+            echo "<option value=\"\" disabled selected>Wybierz przedmiot</option>";
+            foreach($subjects as $record){
+                echo "<option value=\"".$record->subid."\">".$record->subname."</option>";
             }
-            echo "Wybrany uczeń: ".$uczen." z klasy ".$klasa;
+            echo "</select>";
+            echo "<input class=\"me-2\" type=\"submit\" value=\"Wybierz\">";
+            if(isset($_GET['subject_id'])){
+                $selected_subject = DB::select("SELECT * FROM `subjects` WHERE `id` = ".$_GET['subject_id']);
+                $subname = "";
+                foreach($selected_subject as $record){
+                    $subname = $record->name;
+                }
+                echo "Wybrany przedmiot: ".$subname;
+            }
+            else{
+                echo "Nie wybrano przedmiotu";
+            }
+            echo "<input type=\"hidden\" name=\"class_id\" value=\"".$_GET['class_id']."\">";
+            echo "</form>";
+            echo "</div>";
         }
-        else {
-            echo "Nie wybrano ucznia";
+        else{
+            echo "</div>";
+            echo "<p>Do tej klasy jeszcze nie zostały dodane przedmioty</p>";
         }
     }
     else{
-        foreach(DB::select("SELECT `users`.`name` as `student_name`FROM `users` WHERE `users`.`id`=".$_GET['usersSelectList']." LIMIT 1") as $record){
-            $uczen = $record->student_name;
-        }
-        echo "Wybrany uczeń: ".$uczen." bez klasy";
+        echo "</div>";
+        echo "Nie wybrano klasy";
     }
-?>  
-            </form>
-        </div>
+?>
         <div class="dziennik row mt-3">
-            <div class="przedmioty col-3">
-                <h3 class="fw-bold">Przedmioty</h3>
+            <div class="uczniowie col-3">
+                <h3 class="fw-bold">Uczniowie</h3>
 <?php
-    if($class_id!=NULL){
-        $wynik2 = DB::select("SELECT `subjects`.`id` as `subjectId`, `subjects`.`name` as `subjectName` FROM `subjects` JOIN `class_subject` ON `subjects`.`id` = `class_subject`.`subject_id` WHERE `class_subject`.`class_id` = ".$class_id." ORDER BY `subjects`.`name` ASC");
-        foreach($wynik2 as $record){
-            echo "<div class=\"subject_list\">".$record->subjectName."</div>";
+    if(isset($_GET['class_id']) && isset($_GET['subject_id'])){
+        $uczniowie = DB::select("SELECT * FROM `users` WHERE `class_id`=".$_GET['class_id']." AND `users`.`type`=\"student\"");
+        foreach($uczniowie as $record){
+            echo "<div class=\"subject_list\">".$record->name."</div>";
         }
     }
 ?>
@@ -77,11 +91,11 @@
             <div class="oceny col-9">
                 <h3 class="fw-bold">Oceny</h3>
 <?php
-    if($class_id!=NULL){
-        foreach($wynik2 as $record){
-            $wynik3 = DB::select("SELECT * FROM `grades` WHERE `subject_id`=$record->subjectId AND `user_id`=".$_GET['usersSelectList']);
+    if(isset($_GET['class_id']) && isset($_GET['subject_id'])){
+        foreach($uczniowie as $record){
+            $oceny = DB::select("SELECT * FROM `grades` WHERE `subject_id` = ".$_GET['subject_id']." AND `user_id` = ".$record->id);
             echo "<div class=\"grades_list d-flex\">";
-            foreach($wynik3 as $record2) {
+            foreach($oceny as $record2) {
                 echo "<div class=\"gradeColor".$record2->weight."\">".$record2->value."</div>";
             }
             echo "</div>";

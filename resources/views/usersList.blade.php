@@ -14,10 +14,15 @@
         </div>
         <div class="userList row mt-3">
 <?php
-    $wynik = DB::select("SELECT * FROM `users`");
+    $wynik = DB::select("SELECT * FROM `users` ORDER BY CASE
+    WHEN `type` = 'admin' THEN 1
+    WHEN `type` = 'teacher' THEN 2
+    WHEN `type` = 'student' THEN 3
+    ELSE 4
+    END ASC");
 ?>
-            <div class="col-3">
-                <h3 class="fw-bold">Nazwa użytkownika</h3>
+            <div class="col-2">
+                <h3 class="fw-bold">Username</h3>
 <?php
     foreach ($wynik as $record) {
         echo "<div>".$record->username."</div>";
@@ -40,7 +45,7 @@
     }
 ?>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <h3 class="fw-bold">E-mail</h3>
 <?php
     foreach ($wynik as $record) {
