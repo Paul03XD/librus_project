@@ -11,7 +11,7 @@
     @elseif (Auth::user()->type=='teacher')
         <h1>Witamy nauczyciela!</h1>
         <form method="GET">
-            <input class="me-2" type="submit" value="Przejdź do klas" formaction="{{route('school')}}">
+            <input class="me-2" type="submit" value="Przejdź do klas" formaction="{{route('showSchool')}}">
         </form>
     @elseif (Auth::user()->type=='student')
         <h1>Witamy ucznia!</h1>

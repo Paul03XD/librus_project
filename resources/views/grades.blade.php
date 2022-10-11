@@ -7,7 +7,7 @@
     use Illuminate\Support\Facades\DB;
 ?>
     @if (Auth::user()->type=='admin' || Auth::user()->type=='teacher')
-        <div class="przyciski d-flex">
+        <div class="navBox d-flex">
             <form method="GET">
                 <input class="me-2" type="submit" value="Dodaj ocenę" formaction="{{route('addGrade',$name)}}">
                 <input class="me-2" type="submit" value="Wróć do klas" formaction="{{route('showSchool')}}">

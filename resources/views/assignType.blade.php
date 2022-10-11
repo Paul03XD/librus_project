@@ -13,7 +13,7 @@
     echo "<select class=\"me-2\" name=\"user_id\" required>";
     echo "<option value=\"\" disabled selected>Wybierz użytkownika</option>";
     foreach ($wynik as $record) {
-        echo "<option value=".$record->id.">".$record->name."</option>";
+        echo "<option value=".$record->id.">".$record->username."</option>";
     }
     echo "</select>";
 ?>

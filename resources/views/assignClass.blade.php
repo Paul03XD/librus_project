@@ -5,10 +5,11 @@
 <div class="container">
     
     @if (Auth::user()->type=='admin')
-        <form method="post" action="{{ route('createAssignClass') }}">
-            @csrf
-            <h1>Przypisz ucznia do klasy</h1>
-            <select class="me-3 mb-3" name="usersSelectList" required>
+        <div class="formBox mt-3 mb-3">
+            <form method="post" action="{{ route('createAssignClass') }}">
+                @csrf
+                <p>Przypisz ucznia do klasy</p>
+                <select class="me-3 mb-3" name="usersSelectList" required>
 <?php
     $wynik = DB::select("SELECT * FROM `users` WHERE `type` = 'student'");
     if(count($wynik)>0){  
@@ -21,8 +22,8 @@
         echo "<option value=\"\" disabled selected>Brak uczniów</option>";
     }
 ?>
-            </select><br/>
-            <select class="me-3 mb-3" name="classesSelectList" required>
+                </select><br/>
+                <select class="me-3 mb-3" name="classesSelectList" required>
 <?php
     $wynik = DB::select("SELECT * FROM `classes`");
     if(count($wynik)>0){
@@ -35,13 +36,13 @@
         echo "<option value=\"\" disabled selected>Brak klas</option>";
     }
 ?>
-            </select><br/>
-            <input class="mb-3"type="submit" value="Przypisz">
-        </form>
+                </select><br/>
+                <input type="submit" value="Przypisz">
+            </form>
+        </div>
         <form method="get">
             <input type="submit" value="Wróć" formaction="{{route('adminView')}}">
         </form>
-        
     @else
         Brak dostępu
     @endif

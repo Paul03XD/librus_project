@@ -1,6 +1,24 @@
-.dziennik, .userList{
+.dziennik, .userList, .classList, .formBox, .navBox{
     border: 2px solid black;
     padding: 10px;
+}
+.formBox{
+    width: 400px;
+}
+.classList{
+    text-align: center;
+}
+.rekord_row{
+    border-bottom: 1px solid black;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.rekord_element p, .rekord_element input{
+    margin: 10px;
+    height: 40px;
+}
+.rekord_element p{
+    padding: 7px;
 }
 .subject_list{
     border: 1px solid black;

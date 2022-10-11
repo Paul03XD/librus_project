@@ -3,49 +3,35 @@
 
 @section('content')
 <div class="container">
-    <div class="przyciski d-flex">
+    <div class="navBox przyciski d-flex">
         <form method="GET">
             @if (Auth::user()->type=='admin')
                 <input class="me-2" type="submit" value="Wróć do menu admina" formaction="{{route('adminView')}}">
             @endif
         </form>
     </div>
-    <div class = "mt-2 table border-2 border border-dark">
-        <div class = "row d-flex">
-            <div class = "col-2 text-center" style = "margin: auto 0;">
-                Klasa
-            </div>
-            <div class = "col-2 text-center" style = "margin: auto 0;">
-                Ilość uczniów
-            </div>
-            <div class = "col-8 text-center" style = "margin: auto 0;">
-                Przycisk
-            </div>
+    <div class = "classList mt-3">
+<?php
+    $wynik = DB::select("SELECT c.name, COUNT(u.class_id) as number FROM classes c LEFT JOIN users u ON c.id=u.class_id GROUP BY c.name ORDER BY c.name ASC");
+?>
+        <div class = "rekord_row row">
+            <h3 class="col-4 fw-bold">Klasa</h3>
+            <h3 class="col-4 fw-bold">Ilość uczniów</h3>
+            <h3 class="col-4 fw-bold">Przyciski</h3>
         </div>
-        <?php
-        $wynik = DB::select("SELECT c.name, COUNT(u.class_id) as number FROM classes c LEFT JOIN users u ON c.id=u.class_id GROUP BY c.name ORDER BY c.name ASC");
-        foreach($wynik as $record){
-        ?>
-        <div class = "row d-flex">
-            <div class = "col-2 text-center" style = "margin: auto 0;">
-            <?php
-            echo $record->name;
-            ?>
-            </div>
-            <div class = "col-2 text-center" style = "margin: auto 0;">
-            <?php
-            echo $record->number;
-            ?>
-            </div>
-            <div class = "col-8 text-center">
-                <form method="get" action="{{ route('grades', $record->name) }}">
-                    <input class="me-2" type="submit" value="Przejdź do klasy">
-                </form>
-            </div>
-        </div>
-            <?php
-        }
-            ?>
+<?php
+    foreach($wynik as $record){
+        echo "<div class = \"rekord_row row d-flex\">";
+            echo "<div class=\"col-4 rekord_element\"><p>".$record->name."</p></div>";
+            echo "<div class=\"col-4 rekord_element\"><p>".$record->number."</p></div>";
+            echo "<div class=\"col-4 rekord_element\">";
+                echo "<form method=\"get\">";
+                    echo "<input type=\"submit\" value=\"Przejdź do klasy\" formaction=\"".route('grades', $record->name)."\">";
+                echo "</form>";
+            echo "</div>";
+        echo "</div>";
+    }
+?>
         </div> 
     </div>
 </div>

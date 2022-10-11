@@ -7,7 +7,7 @@
     use Illuminate\Support\Facades\DB;
 ?>
     @if (Auth::user()->type=='admin' || Auth::user()->type=='student')
-        <div class="przyciski d-flex">
+        <div class="navBox d-flex">
             <form method="get">
             @if (Auth::user()->type=='admin')
                 <input class="me-2" type="submit" value="Wróć do menu admina" formaction="{{route('adminView')}}">

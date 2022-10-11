@@ -4,9 +4,10 @@
 <div class="container">
     
     @if (Auth::user()->type=='admin')
-        <form>
-            @csrf
-            <h1 class="mb-3">Przypisz przedmiot do klasy</h1>
+        <div class="formBox mt-3 mb-3">
+            <form>
+                @csrf
+                <p class="mb-3">Przypisz przedmiot do klasy</p>
 <?php
     $wynik = DB::select("SELECT * FROM `classes`");
     if(count($wynik)>0){
@@ -14,7 +15,7 @@
         if(count($wynik2)==0){
             echo "Brak przedmiotów do przypisania<br/>";
 ?>
-            <input class="mb-2" type="submit" value="Dodaj przedmiot" formmethod="GET" formaction="{{route('addSubjects')}}">
+                <input class="mb-2" type="submit" value="Dodaj przedmiot" formmethod="GET" formaction="{{route('addSubjects')}}">
 <?php
         }
         else{
@@ -47,7 +48,8 @@
         }
     }
 ?>
-        </form>
+            </form>
+        </div>
         <form method="get">
             <input type="submit" value="Wróć" formaction="{{route('adminView')}}">
         </form>
